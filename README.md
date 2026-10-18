@@ -1,6 +1,6 @@
 # ComfyUI-HwmonHUD
 
-顶栏硬件监视条（纯 UI 扩展，不提供工作流节点）。独立实现，未复用任何第三方监控节点的代码。
+顶栏硬件监视条（纯 UI 扩展，不提供工作流节点）。
 
 ## 这是什么（一句话）
 
@@ -23,7 +23,7 @@
 在 Web UI 顶栏「运行 / 队列」按钮同一排，显示五项指标 + **判定状态**：
 
 ```
-● 真·生产驴 │ GPU 98% 62° 172W │ 内存 43% │ CPU 39%
+● 真·生产驴 │ GPU 98% 62℃ 172W │ 内存 43% │ CPU 39%
 ```
 
 - **判定状态**（● 真·生产驴 / 假忙卡死 / 空闲 / 低负载）：这是"到底在真干活还是假死"的直接结论，
@@ -45,7 +45,7 @@ CPU 温度**不显示**（2026-10-18 实测：Windows 不向普通程序开放�
 | 🟢 真·生产驴 | util ≥ 85% 且 有能耗证据；或 功耗 ≥ 110W（兜底）|
 | 🟡 低负载/加载中 | 其余（加载/编译过渡）|
 
-**为什么要自适应**：绝对线（56℃/110W）只对本机这类凉卡成立。高底温设备空闲就 55℃+，
+**为什么要自适应**：绝对线（56℃/110W）只对测试机这类凉卡成立。高底温设备空闲就 55℃+，
 绝对温度线会把空闲判成干活、把卡死漏判成正常 ⇒ 主证据改为"离本机空闲基线的距离"，
 绝对温度线只在本机还没基线时兜底（且要求 util ≥50%）。基线存 `_data/baseline.json`，
 只从空闲样本学习，30s 落盘。
@@ -104,48 +104,7 @@ ComfyUI-HwmonHUD/
 └── _data/           # 基线持久化（运行时生成，可删）
 ```
 
-## 合规审查（2026-10-18，对照 ComfyUI 官方自定义节点规范）
 
-| 项 | 状态 |
-|---|---|
-| 包结构：`__init__.py` + `WEB_DIRECTORY = "./web"` + 写进 `__all__` | ✅ |
-| 纯 UI 扩展：`NODE_CLASS_MAPPINGS = {}` | ✅ 官方「仅客户端」类别的合法形态 |
-| API 路由：`PromptServer.instance.routes` + 唯一前缀 | ✅ |
-| 前端：`registerExtension({name: "ComfyUI.HwmonHUD", setup})` | ✅ |
-| `pyproject.toml`（name/version/description/Repository/PublisherId） | ✅ 已补（PublisherId 待注册后填） |
-| `requirements.txt` / `LICENSE` / `__version__` | ✅ 已补 |
-| 日志：`logging`（`[ComfyUI-HwmonHUD]` 前缀），无 `print` | ✅ 已改 |
-| 静态体检 | ✅ FAIL=0（唯一 WARN：PublisherId 仍是 TODO） |
-
-开发规范、模板与体检工具见技能 `comfyui-node-authoring`（`~/.workbuddy/skills/`）。
-
-## 挂载兼容（1.55.17 实测修正）
-
-**新版 UI 里 `app.menu` 是遗留隐藏菜单**（祖先 `.comfy-menu` 为 `display:none`），插进去得到
-0×0 的不可见元素——在 DOM、有文本、控制台无报错，就是看不见。实测唯一稳定可见的锚点是
-`.queue-button-group`（"运行/取消"按钮组）。
-
-挂载优先级：
-
-1. 可见的 `.queue-button-group` 之前（与"运行"按钮同一排）
-2. 可见的 `app.menu.settingsGroup.element` 之前（老版 UI）
-3. 可见的 `#queue-button` 之后（更老）
-4. 右下角固定浮窗
-
-"挂上了"的判定 = `isConnected && rect.width > 0`：不可见就拆掉重挂；Vue 重渲染后 1.5s 内自动补回。
-
-## 命名规范（防重名）
-
-| 层级 | 名字 | 冲突风险与规则 |
-|---|---|---|
-| 目录 | `ComfyUI-HwmonHUD` | 社区惯例前缀 `ComfyUI-`（不强制，但人人这么起）；目录重名必须靠名字本身区分 |
-| Registry 节点 ID | `hwmon-hud` | `pyproject.toml` 的 `[project].name`；官方规则：**不含 "ComfyUI"**、不能数字开头、<100 字符 |
-| 节点类 | 无 | 本包 `NODE_CLASS_MAPPINGS = {}`，**不注册工作流节点**，所以节点菜单里没有条目、也没有类名重名问题 |
-| 前端扩展名 | `ComfyUI.HwmonHUD` | ComfyUI 用 `app.registerExtension({name})` 的 name 去重，带前缀避免与其他扩展撞名 |
-| DOM id | `comfyui-hwmon-hud` | 页面全局唯一 id，带前缀避免与其他扩展的 id 冲突 |
-| HTTP 路由 | `/comfyui_hwmon_hud/stats` | aiohttp 路由是**全局表**，撞了会有一个失效，带前缀最稳 |
-
-> 一句话：`ComfyUI-` 是给人看的惯例前缀，`comfyui_` 是给程序去重用的命名空间。
 
 ## 卸载
 
@@ -156,15 +115,12 @@ ComfyUI-HwmonHUD/
 **Q：装完顶栏看不到监视条？**
 先按 `Ctrl+F5` 硬刷新（浏览器缓存了旧页面）；再确认你的 ComfyUI 是较新版（顶栏有「运行/队列」按钮那版）。
 
-**Q：CPU 温度那一栏显示「—」？**
+**Q：CPU 温度那一栏未显示？**
 正常。Windows 默认不把 CPU 温度开放给普通程序读（ACPI 直读也是死值），所以这里故意留空，不造假数字。
-
-**Q：温度符号是「℃」还是「°C」？**
-已统一为正确的摄氏度符号 **℃**（U+2103 单一字符），不是「度 + 字母 C」。
 
 **Q：判定会误报吗？**
 它自动学习你这台机器的「空闲基线」（底温/底功耗），用「离基线的差距」来判，而不是死板的一个温度数字。
 所以凉卡和高底温卡都能判对。前 30 秒还在学习时，会临时用绝对阈值兜底，属正常。
 
 **Q：想自己改阈值怎么办？**
-判定阈值集中在 `stats.py` 的 `TH` 字典里，注释和 `tools/hwmon` 的 `CFG` 互相提醒同步；一般不用动。
+判定阈值集中在 `stats.py` 的 `TH` 字典里（如 `real_power` / `fake_util` / `alert_temp`），一般不用动。要按你的显卡调，看 **[阈值调整示例.md](阈值调整示例.md)** —— 有高功耗卡 / 高温卡 / 假忙灵敏度四个真实改法。
