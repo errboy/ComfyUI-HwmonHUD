@@ -1,0 +1,15 @@
+[project]
+name = "hwmon-hud"                     # Registry 节点 ID：不含 "ComfyUI"、不改名
+version = "0.1.0"                      # 语义化版本 X.Y.Z
+description = "Top-bar hardware HUD for ComfyUI: verdict + GPU util/temp/power, RAM and CPU load with adaptive baselines."
+license = { text = "MIT" }
+requires-python = ">=3.9"
+dependencies = ["psutil>=5.9"]
+
+[project.urls]
+Repository = "https://example.com/your-repo"    # TODO 发布前改成真实仓库地址
+
+[tool.comfy]
+PublisherId = "TODO-your-publisher-id"          # TODO 从 registry.comfy.org 个人页 @ 后获取
+DisplayName = "Hwmon HUD"
+requires-comfyui = ">=0.3.0"

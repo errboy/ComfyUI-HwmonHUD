@@ -1,0 +1,16 @@
+# 运行时数据（含本机硬件基线，勿上传）
+_data/
+
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# 编辑器 / OS
+.idea/
+.vscode/
+.DS_Store
+
+# 运行日志
+*.log

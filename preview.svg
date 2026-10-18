@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 360" font-family="Segoe UI, Microsoft YaHei, sans-serif">
+<rect width="700" height="360" fill="#0d1117"/>
+<text x="24" y="42" fill="#e6edf3" font-size="22" font-weight="700">ComfyUI-HwmonHUD 顶栏监视条 · 样图</text>
+<text x="24" y="66" fill="#8b949e" font-size="13">贴在顶部“运行”按钮旁，实时显示硬件状态并自动判断真忙/假忙</text>
+<rect x="24" y="96" width="652" height="62" rx="10" fill="#161b22" stroke="#30363d"/>
+<circle cx="50" cy="127" r="9" fill="#3fb950"/>
+<text x="74" y="123" fill="#3fb950" font-size="16" font-weight="700">真·生产驴</text>
+<text x="74" y="144" fill="#e6edf3" font-size="14" font-family="Consolas, monospace">GPU 100%   62℃   151W   │   内存 49%   │   CPU 16%</text>
+<text x="450" y="133" fill="#8b949e" font-size="12">真在算：占用高，且功耗/温度明显高于空闲基线</text>
+<rect x="24" y="174" width="652" height="62" rx="10" fill="#161b22" stroke="#30363d"/>
+<circle cx="50" cy="205" r="9" fill="#f85149"/>
+<text x="74" y="201" fill="#f85149" font-size="16" font-weight="700">假忙卡死</text>
+<text x="74" y="222" fill="#e6edf3" font-size="14" font-family="Consolas, monospace">GPU 99%   51℃   98W   │   内存 30%   │   CPU 12%</text>
+<text x="450" y="211" fill="#8b949e" font-size="12">卡住了：占用高但功耗没上去，疑似假死</text>
+<rect x="24" y="252" width="652" height="62" rx="10" fill="#161b22" stroke="#30363d"/>
+<circle cx="50" cy="283" r="9" fill="#6e7681"/>
+<text x="74" y="279" fill="#6e7681" font-size="16" font-weight="700">空闲</text>
+<text x="74" y="300" fill="#e6edf3" font-size="14" font-family="Consolas, monospace">GPU 1%   45℃   30W   │   内存 21%   │   CPU 16%</text>
+<text x="450" y="289" fill="#8b949e" font-size="12">没活干：占用低、功耗低</text>
+<text x="24" y="338" fill="#8b949e" font-size="12">配色：<tspan fill="#3fb950">绿 = 真·生产驴</tspan>    <tspan fill="#f85149">红 = 假忙卡死</tspan>    <tspan fill="#6e7681">灰 = 空闲</tspan></text>
+<text x="24" y="360" fill="#8b949e" font-size="12">温度符号已用正确的摄氏度 ℃（U+2103）。</text>
+</svg>
