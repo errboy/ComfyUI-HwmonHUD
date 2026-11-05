@@ -1,6 +1,6 @@
 [project]
 name = "hwmon-hud"                     # Registry 节点 ID：不含 "ComfyUI"、不改名
-version = "0.1.0"                      # 语义化版本 X.Y.Z
+version = "0.2.0"                      # 语义化版本 X.Y.Z
 description = "Top-bar hardware HUD for ComfyUI: verdict + GPU util/temp/power, RAM and CPU load with adaptive baselines."
 license = { text = "MIT" }
 requires-python = ">=3.9"
