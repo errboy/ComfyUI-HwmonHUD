@@ -1,22 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 360" font-family="Segoe UI, Microsoft YaHei, sans-serif">
-<rect width="700" height="360" fill="#0d1117"/>
-<text x="24" y="42" fill="#e6edf3" font-size="22" font-weight="700">ComfyUI-HwmonHUD 顶栏监视条 · 样图</text>
-<text x="24" y="66" fill="#8b949e" font-size="13">贴在顶部“运行”按钮旁，实时显示硬件状态并自动判断真忙/假忙</text>
-<rect x="24" y="96" width="652" height="62" rx="10" fill="#161b22" stroke="#30363d"/>
-<circle cx="50" cy="127" r="9" fill="#3fb950"/>
-<text x="74" y="123" fill="#3fb950" font-size="16" font-weight="700">真·生产驴</text>
-<text x="74" y="144" fill="#e6edf3" font-size="14" font-family="Consolas, monospace">GPU 100%   62℃   151W   │   内存 49%   │   CPU 16%</text>
-<text x="450" y="133" fill="#8b949e" font-size="12">真在算：占用高，且功耗/温度明显高于空闲基线</text>
-<rect x="24" y="174" width="652" height="62" rx="10" fill="#161b22" stroke="#30363d"/>
-<circle cx="50" cy="205" r="9" fill="#f85149"/>
-<text x="74" y="201" fill="#f85149" font-size="16" font-weight="700">假忙卡死</text>
-<text x="74" y="222" fill="#e6edf3" font-size="14" font-family="Consolas, monospace">GPU 99%   51℃   98W   │   内存 30%   │   CPU 12%</text>
-<text x="450" y="211" fill="#8b949e" font-size="12">卡住了：占用高但功耗没上去，疑似假死</text>
-<rect x="24" y="252" width="652" height="62" rx="10" fill="#161b22" stroke="#30363d"/>
-<circle cx="50" cy="283" r="9" fill="#6e7681"/>
-<text x="74" y="279" fill="#6e7681" font-size="16" font-weight="700">空闲</text>
-<text x="74" y="300" fill="#e6edf3" font-size="14" font-family="Consolas, monospace">GPU 1%   45℃   30W   │   内存 21%   │   CPU 16%</text>
-<text x="450" y="289" fill="#8b949e" font-size="12">没活干：占用低、功耗低</text>
-<text x="24" y="338" fill="#8b949e" font-size="12">配色：<tspan fill="#3fb950">绿 = 真·生产驴</tspan>    <tspan fill="#f85149">红 = 假忙卡死</tspan>    <tspan fill="#6e7681">灰 = 空闲</tspan></text>
-<text x="24" y="360" fill="#8b949e" font-size="12">温度符号已用正确的摄氏度 ℃（U+2103）。</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 470" font-family="Segoe UI, Microsoft YaHei, sans-serif">
+<rect width="780" height="470" fill="#0d1117"/>
+<text x="24" y="44" fill="#e6edf3" font-size="22" font-weight="700">ComfyUI-HwmonHUD 顶栏监视条 · 四态样图</text>
+<text x="24" y="70" fill="#8b949e" font-size="13">贴在顶部“运行”按钮旁，实时显示硬件状态并自动判定四态（0.2.0 滑动窗口状态机）</text>
+
+<!-- 1. 执行中 -->
+<rect x="24" y="96" width="732" height="64" rx="10" fill="#161b22" stroke="#30363d"/>
+<circle cx="50" cy="128" r="9" fill="#3fb950"/>
+<text x="74" y="124" fill="#3fb950" font-size="16" font-weight="700">执行中</text>
+<text x="74" y="146" fill="#e6edf3" font-size="14" font-family="Consolas, monospace">GPU 100%   62℃   151W   │   内存 49%   │   CPU 16%</text>
+<text x="470" y="135" fill="#8b949e" font-size="12">真在算：功耗/温度明显高于空闲基线</text>
+
+<!-- 2. 加载中 -->
+<rect x="24" y="172" width="732" height="64" rx="10" fill="#161b22" stroke="#30363d"/>
+<circle cx="50" cy="204" r="9" fill="#58a6ff"/>
+<text x="74" y="200" fill="#58a6ff" font-size="16" font-weight="700">加载中</text>
+<text x="74" y="222" fill="#e6edf3" font-size="14" font-family="Consolas, monospace">GPU 35%   51℃   98W   │   内存 30%   │   CPU 12%</text>
+<text x="470" y="211" fill="#8b949e" font-size="12">搬模型/编译：功耗没起但显存在涨</text>
+
+<!-- 3. 卡死 -->
+<rect x="24" y="248" width="732" height="64" rx="10" fill="#161b22" stroke="#30363d"/>
+<circle cx="50" cy="280" r="9" fill="#f85149"/>
+<text x="74" y="276" fill="#f85149" font-size="16" font-weight="700">卡死</text>
+<text x="74" y="298" fill="#e6edf3" font-size="14" font-family="Consolas, monospace">GPU 99%   45℃   21W   │   内存 21%   │   CPU 9%</text>
+<text x="470" y="287" fill="#8b949e" font-size="12">自旋型：占用高但功耗贴底噪、不产热 ≥60s</text>
+
+<!-- 4. 空闲 -->
+<rect x="24" y="324" width="732" height="64" rx="10" fill="#161b22" stroke="#30363d"/>
+<circle cx="50" cy="356" r="9" fill="#6e7681"/>
+<text x="74" y="352" fill="#6e7681" font-size="16" font-weight="700">空闲</text>
+<text x="74" y="374" fill="#e6edf3" font-size="14" font-family="Consolas, monospace">GPU 1%   45℃   30W   │   内存 21%   │   CPU 16%</text>
+<text x="470" y="363" fill="#8b949e" font-size="12">没活干：占用低、功耗低</text>
+
+<text x="24" y="414" fill="#8b949e" font-size="12">配色：
+  <tspan fill="#3fb950">绿 = 执行中</tspan>      <tspan fill="#58a6ff">蓝 = 加载中</tspan>      <tspan fill="#f85149">红 = 卡死</tspan>      <tspan fill="#6e7681">灰 = 空闲</tspan></text>
+<text x="24" y="442" fill="#8b949e" font-size="12">另：执行中但超过同类历史超时线 1.8 倍 → 文案「执行中（超时）」、颜色转黄（#d29922），是异常拖长而非卡死。</text>
 </svg>
