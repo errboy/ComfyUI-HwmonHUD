@@ -18,6 +18,7 @@ const COL = {
   green: "#3fb950",
   yellow: "#d29922",
   red: "#f85149",
+  blue: "#58a6ff",
   dim: "#6e7681",
 };
 
@@ -138,6 +139,14 @@ function fmt(v, unit, digits) {
   return n + unit;
 }
 
+// 秒 → "3:12" / "48s"，任务时长和超时线都按这个显示
+function fmtSec(v) {
+  if (v == null || isNaN(v)) return "--";
+  const s = Math.round(v);
+  if (s < 60) return s + "s";
+  return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+}
+
 function paint(s) {
   const box = document.getElementById(HUD_ID);
   if (!box) return;
@@ -168,6 +177,19 @@ function paint(s) {
   lines.push("CPU 负载 " + fmt(s.cpu && s.cpu.percent, "%"));
   if (s.verdict) lines.push("判定 " + s.verdict.text);
   if (s.verdict && s.verdict.why) lines.push("依据 " + s.verdict.why);
+  const wd = s.window || {};
+  if (wd.sec && wd.n) {
+    lines.push("最近 " + wd.sec + "s 中位（" + wd.n + " 点）：利用率 " + fmt(wd.util, "%") +
+               " · 功耗 " + fmt(wd.power, "W") + " · 温度 " + fmt(wd.temp, "℃"));
+  }
+  const tk = s.task || {};
+  if (tk.elapsed != null) {
+    let ln = "本任务已跑 " + fmtSec(tk.elapsed) + (tk.label ? "（" + tk.label + "）" : "");
+    if (tk.timeout != null) {
+      ln += " · 同类历史超时线 " + fmtSec(tk.timeout) + "（" + tk.hist_n + " 次记录）";
+    }
+    lines.push(ln);
+  }
   const bl = s.baseline || {};
   if (bl.idle_power != null || bl.idle_temp != null) {
     lines.push("本机基线 底温 " + fmt(bl.idle_temp, "℃") +

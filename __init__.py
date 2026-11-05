@@ -12,7 +12,7 @@
 """
 import logging
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 WEB_DIRECTORY = "./web"
 NODE_CLASS_MAPPINGS = {}
@@ -26,5 +26,15 @@ try:
     from . import api_routes  # noqa: F401
 except Exception as exc:      # pragma: no cover
     _log.warning("路由注册跳过：%s", exc)
+
+# 常驻采样线程：判定要用时间窗，必须有连续样本。
+# 原来只在前端轮询时才采，面板一关缓冲就是空的，窗口判定无从谈起。
+# daemon 线程 + 内部全量 try/except：任何异常都不会影响 ComfyUI 主流程。
+try:
+    from . import stats
+    if stats.start_sampler():
+        _log.info("常驻采样线程已启动（判定用滑动窗口）")
+except Exception as exc:      # pragma: no cover
+    _log.warning("常驻采样线程未启动，判定退回单点：%s", exc)
 
 __all__ = ["WEB_DIRECTORY", "NODE_CLASS_MAPPINGS", "NODE_DISPLAY_NAME_MAPPINGS", "__version__"]
